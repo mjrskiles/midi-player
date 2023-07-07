@@ -22,6 +22,7 @@ class MidiPlayer(threading.Thread):
             self.port.send(mono_poly_msg)
             
             for msg in midi_file.play():
+                print(f"{msg}")
                 self.port.send(msg)
         except Exception as err:
             self.log.error(f"Couldn't play {file_path}")
@@ -34,6 +35,7 @@ class MidiPlayer(threading.Thread):
             if mail := self.mailbox.get():
                 match mail.split():
                     case ['play', '-f', path]:
+                        print(f"{mail}")
                         self.play_file(path)
                     case ['exit']:
                         self.log.info("Got exit command.")
